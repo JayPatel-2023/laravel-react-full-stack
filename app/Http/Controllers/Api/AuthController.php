@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
-    //when payload send using axios api it reach here in backend part(server)
+    //when payload send using axios api it reach here in backend part(server) 
 
     public function login(){
 
