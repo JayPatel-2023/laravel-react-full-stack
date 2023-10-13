@@ -14,7 +14,7 @@ class SignupRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;  //make it true then n then the this logic is apply.
     }
 
     /**
@@ -34,7 +34,7 @@ class SignupRequest extends FormRequest
                 Password::min(8)
                     ->letters()
                     ->symbols()
-
+                    ->numbers()
             ]
         ];
     }

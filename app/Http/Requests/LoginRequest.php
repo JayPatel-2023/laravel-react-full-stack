@@ -1,5 +1,7 @@
 <?php
 
+//creating rules for login
+
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
@@ -11,7 +13,7 @@ class LoginRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;  //make it true then n then the this logic is apply.
     }
 
     /**
@@ -21,8 +23,13 @@ class LoginRequest extends FormRequest
      */
     public function rules(): array
     {
+        //if this rules follow properly by user entered data then only the user can login
         return [
-            //
+            'email' => 'required|email|string|exists:users,email',
+            'password' => [
+                'required',
+            ],
+            'remember' => 'boolean'
         ];
     }
 }
