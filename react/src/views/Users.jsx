@@ -25,7 +25,7 @@ export default function Users(){
 
     return (
         <div>
-            <Link></Link>
+            <Link>User</Link>
         </div>
     )
 }
