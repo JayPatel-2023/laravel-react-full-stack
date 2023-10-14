@@ -8,10 +8,12 @@ export default function Users(){
     const [users, setUsers] = useState([]);
     const [loading, setLoading] = useState(false);
     const {setNotification} = useStateContext();
+    const [currentPage, setCurrentPage] = useState(1); // Track the current page
+    const [totalPages, setTotalPages] = useState(1); // Track the total number of pages
 
     useEffect(()=>{
         getUsers()
-    },[])
+    },[currentPage])
 
     const onDeleteClick = (user) => {
         if (!window.confirm("Are you sure you want to delete this user?")) {
@@ -25,16 +27,18 @@ export default function Users(){
       }
 
     const getUsers = () => {
-        setLoading(true)
-        axiosClient.get('/users')
-            .then(({data})=>{
-                setLoading(false)
-                //console.log(data);
-                setUsers(data.data)
-            }).catch(()=>{
+        setLoading(true);
+        axiosClient.get(`/users?page=${currentPage}`)
+            .then(({ data }) => {
                 setLoading(false);
+                setUsers(data.data);
+                setTotalPages(data.last_page);
             })
-    }
+            .catch(() => {
+                setLoading(false);
+            });
+    };
+    
 
     return (
         <div>
@@ -63,7 +67,7 @@ export default function Users(){
                     {!loading && 
                         <tbody>
                             {users.map(u=>(
-                                <tr>
+                                <tr key={u.id}>
                                     <td>{u.id}</td>
                                     <td>{u.name}</td>
                                     <td>{u.email}</td>
@@ -71,13 +75,23 @@ export default function Users(){
                                     <td>
                                         <Link to={'/users/'+u.id} className="btn-edit">Edit</Link>
                                         &nbsp;
-                                        <button className="btn-delete" onClick={ev => onDeleteClick(u)}>Delete</button>
+                                        {users && <button className="btn-delete" onClick={ev => onDeleteClick(u)}>Delete</button>} 
                                     </td>
                                 </tr>
                             ))}
                         </tbody>
                     }
                 </table>
+                
+                <div className="pagination-container">
+                    <button onClick={() => setCurrentPage(currentPage - 1)} disabled={currentPage === 1} className="pagination-button" >
+                        Previous
+                    </button>
+                    &nbsp;
+                    <button onClick={() => setCurrentPage(currentPage + 1)} disabled={currentPage === totalPages} className="pagination-button" >
+                        Next
+                    </button>
+                </div>
             </div>
         </div>
     )

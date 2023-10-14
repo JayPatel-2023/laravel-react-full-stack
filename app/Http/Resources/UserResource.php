@@ -15,6 +15,7 @@ class UserResource extends JsonResource
      */
     public function toArray(Request $request)
     {
+        date_default_timezone_set('Asia/Kolkata');
         return [
             'id' => $this->id,
             'name' => $this->name,
