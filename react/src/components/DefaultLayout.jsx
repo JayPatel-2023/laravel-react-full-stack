@@ -35,9 +35,9 @@ export default function DefaultLayout() {
       </aside>
       <div className="content">
         <header>
-          <div>Header</div>
+          <div><h2 style={{ color: "#5b08a7" }}>Shree Dwarkesh Electronics</h2></div>
             <div>
-                {user.name} &nbsp; &nbsp;
+                Hello,&nbsp;{user.name} &nbsp; &nbsp;
                 <a href="#" className="btn-logout" onClick={onLogout}>Logout</a>
             </div>
         </header>
